@@ -4,9 +4,10 @@ A user-space driver for Kvaser USB CAN adapters on macOS. The public header
 is [`include/KvaserUSB.h`](include/KvaserUSB.h); the built library is
 `libKvaserUSB.1.dylib`.
 
-This is a port of the USB protocols in Kvaser's `linuxcan` sources, driven
-from user space with [libusb](https://libusb.info/). It is **not** a wrapper
-around Kvaser's CANlib, and it needs no kernel or system extension.
+This is a port of the USB protocols in Kvaser's `linuxcan` 5.52.563
+(BSD-3-Clause OR GPL-2.0), driven from user space with
+[libusb](https://libusb.info/). It is **not** a wrapper around Kvaser's
+CANlib, and it needs no kernel or system extension.
 
 It is also unrelated to MacCAN's
 [KvaserCAN-Library](https://github.com/mac-can/KvaserCAN-Library), which

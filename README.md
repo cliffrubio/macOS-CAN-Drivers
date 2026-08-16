@@ -13,9 +13,9 @@ load them, and you can read every byte that goes to the adapter.
 | [`KvaserUSB/`](KvaserUSB) | `libKvaserUSB.dylib` | Kvaser Leaf / USBcan / Hydra family | small C API (`kv_*`) | BSD-3-Clause OR GPL-2.0 |
 
 The wire protocols are ported from the vendors' own Linux drivers, PEAK's
-`peak-linux-driver` 9.2.0 under the GPL and Kvaser's `linuxcan` under BSD or
-GPL. Nothing here is reverse engineered from, or wrapped around, a macOS
-library whose sources are not public.
+`peak-linux-driver` 9.2.0 under the GPL and Kvaser's `linuxcan` 5.52.563
+under BSD or GPL. Nothing here is reverse engineered from, or wrapped
+around, a macOS library whose sources are not public.
 
 ## Why
 
