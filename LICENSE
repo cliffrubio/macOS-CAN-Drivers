@@ -1,0 +1,22 @@
+This repository contains two independent drivers, licensed separately because each is a port of a differently licensed vendor source.
+
+  PeakUSB/     GPL-2.0-or-later
+               Full text: PeakUSB/LICENSE
+               Ported from PEAK's peak-linux-driver, which is GPL.
+
+  KvaserUSB/   BSD-3-Clause OR GPL-2.0-only
+               Full text: KvaserUSB/LICENSE
+               Ported from Kvaser's linuxcan, which is dual licensed. You may
+               use KvaserUSB under either licence, at your option.
+
+Neither library is a derivative of the other, and neither is combined with the
+other at build or link time. They are distributed together only for
+convenience. Every source file carries an SPDX-License-Identifier naming the
+licence that governs it, which is authoritative if this summary and a file
+header ever disagree.
+
+The build files at the top of the repository (Makefile) are GPL-2.0-or-later.
+
+PEAK, PCAN and Kvaser, and the associated product names, are trademarks of
+their respective owners. This project is not affiliated with, nor endorsed by,
+PEAK-System Technik GmbH or Kvaser AB.

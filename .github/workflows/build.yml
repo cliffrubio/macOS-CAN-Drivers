@@ -1,0 +1,62 @@
+# Builds both drivers on macOS. There are no unit tests: everything meaningful
+# needs a CAN adapter on the other end, so this guards against the failure that
+# does not need hardware, namely the tree ceasing to compile cleanly.
+name: build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  macos:
+    name: ${{ matrix.arch }}
+    strategy:
+      fail-fast: false       # an Intel-only failure should not hide an arm64 pass
+      matrix:
+        include:
+          - { os: macos-26,       arch: arm64 }
+          - { os: macos-26-intel, arch: x86_64 }
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30      # never sit in the queue indefinitely
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Install libusb
+        run: brew install libusb
+
+      - name: Build
+        # The architecture is pinned rather than left to the compiler default,
+        # so what gets checked below is provably what this runner produced.
+        run: make ARCHS=${{ matrix.arch }}
+
+      - name: Fail on any compiler warning
+        run: |
+          make clean
+          # -Werror is deliberately not in the Makefile, so a warning on some
+          # future compiler never blocks a user's build. It is enforced here
+          # instead, appended to CC rather than passed as CFLAGS: a
+          # command-line CFLAGS would override the Makefile's own += and drop
+          # the libusb include path.
+          make ARCHS=${{ matrix.arch }} CC="cc -Werror"
+
+      - name: Confirm the built slice is the expected architecture
+        run: |
+          set -euo pipefail
+          for lib in PeakUSB/build/libPeakUSB.1.dylib \
+                     KvaserUSB/build/libKvaserUSB.1.dylib; do
+            lipo -info "$lib"
+            lipo -info "$lib" | grep -q '${{ matrix.arch }}'
+          done
+
+      - name: Tools run without an adapter attached
+        run: |
+          ./PeakUSB/build/pcan_ls
+          ./KvaserUSB/build/kvaser_ls
+
+      - name: Install into a staging directory
+        run: |
+          make install DESTDIR="$PWD/stage"
+          make -C PeakUSB install-compat DESTDIR="$PWD/stage"
+          find stage -type f -o -type l

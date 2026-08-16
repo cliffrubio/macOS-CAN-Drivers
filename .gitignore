@@ -1,0 +1,12 @@
+# build output, everything generated lands in build/
+build/
+
+# stray object files and libraries, if someone builds in-tree
+*.o
+*.d
+*.dylib
+*.dSYM/
+*.a
+
+# macOS
+.DS_Store
